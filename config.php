@@ -2,7 +2,7 @@
 $host = 'localhost';
 $user = 'root';
 $password = '';
-$dbname = 'restaurantreview';
+$dbname = 'beauty_salon';
 
 $conn = new mysqli($host, $user, $password, $dbname);
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
