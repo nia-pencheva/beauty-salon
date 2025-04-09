@@ -4,11 +4,13 @@ include "config.php"; // Include the database connection file
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
+    $email = $_POST['email'];
+    $full_name = $_POST['full_name'];
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
 
     // Ensure all fields are filled
-    if (!empty($username) && !empty($password) && !empty($confirm_password)) {
+    if (!empty($username) && !empty($email)&& !empty($full_name) && !empty($confirm_password)) {
         // Check if passwords match
         if ($password !== $confirm_password) {
             $error = "Паролите не съвпадат!";
@@ -27,9 +29,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $error = "Потребителското име вече съществува.";
             } else {
                 // Insert the new user into the database
-                $sql = "INSERT INTO users (username, password) VALUES (?, ?)";
+                $sql = "INSERT INTO users (username, email, full_name, password) VALUES (?, ?, ?, ?)";
                 $stmt = $conn->prepare($sql);
-                $stmt->bind_param("ss", $username, $hashed_password);
+                $stmt->bind_param("ssss", $username, $email, $full_name, $hashed_password);
 
                 if ($stmt->execute()) {
                     $_SESSION['register_success'] = "Успешна регистрация! Моля, влезте в системата.";
@@ -135,8 +137,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="container">
         <h1>Регистрация</h1>
         <form method="post" action="register.php">
+            <label for="username">Име и фамилия:</label>
+            <input type="text" id="full_name" name="full_name" required>
+            
             <label for="username">Потребителско име:</label>
             <input type="text" id="username" name="username" required>
+            
+            <label for="username"> Имейл:</label>
+            <input type="text" id="email" name="email" required>
             
             <label for="password">Парола:</label>
             <input type="password" id="password" name="password" required>

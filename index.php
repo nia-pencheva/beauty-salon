@@ -2,10 +2,10 @@
 session_start();
 
 // Check if the user is logged in by verifying if 'user_id' exists in the session
-$is_logged_in = isset($_SESSION['user_id']) && $_SESSION['user_id'];
+$is_logged_in = isset($_SESSION['id']) && $_SESSION['id'];
 
 // Check if the user is an admin
-$is_admin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
+//$is_admin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
 ?>
 
 <!DOCTYPE html>
@@ -97,11 +97,7 @@ $is_admin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
             <a href="listRestaurants.php">Списък с ресторанти</a>
             <a href="checkReview.php">Преглед на ревю за ресторант</a>
             <a href="addReview.php">Добави ревю за ресторант</a>
-            
-            <?php if ($is_admin): ?>
-            <a href="addRestaurant.php">Добави ресторант</a><br>
-                <a href="newWords.php">Добави ключови думи</a>
-            <?php endif; ?>
+
 
             <br>
             <a href="logout.php">Изход</a>

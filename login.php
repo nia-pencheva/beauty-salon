@@ -19,8 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (password_verify($password, $user['password'])) {
                 $_SESSION['logged_in'] = true;
                 $_SESSION['username'] = $user['username'];
-                $_SESSION['user_id'] = $user['id'];
-                $_SESSION['role'] = $user['role']; // Store the role in the session
+                $_SESSION['id'] = $user['id'];
+                //$_SESSION['role'] = $user['role']; // Store the role in the session
 
                 
                 header('Location: index.php'); // User dashboard
