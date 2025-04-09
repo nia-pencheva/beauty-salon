@@ -8,6 +8,7 @@ if (session_status() == PHP_SESSION_NONE) {
 $sort_order = isset($_GET['sort']) ? $_GET['sort'] : 'rating_desc';
 
 // Define the query based on the selected sort option
+//
 if ($sort_order == 'rating_asc') {
     $stmt = $conn->prepare("
         SELECT r.id, r.name, r.location, AVG(f.rating) AS average_rating
