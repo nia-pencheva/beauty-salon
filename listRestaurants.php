@@ -4,7 +4,7 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }include "config.php"; 
 
-// Determine the sort option (default to 'rating_desc' if none is selected)
+// TEST Determine the sort option (default to 'rating_desc' if none is selected)
 $sort_order = isset($_GET['sort']) ? $_GET['sort'] : 'rating_desc';
 
 // Define the query based on the selected sort option
