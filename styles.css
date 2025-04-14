@@ -1,46 +1,73 @@
-        body {
-            flex-direction: column;
-            justify-content: start;
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f7fa;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+:root {
+    --light-pink: #f9cccf;
+    --dark-pink: #e8aeb7;
+    --light-mint-green: #a1d8bb;
+    --dark-mint-green: #7db89e;
+    --dark-gray: #444444;
+    --light-gray: #ccc;
+    --cream: #fff9f7;
+}
 
-        .container {
-            background-color: #fff;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            padding: 40px;
-            width: 100%;
-            max-width: 600px;
-            text-align: center;
-        }
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
 
- .navbar {
-     
-            display: flex;
-            justify-content: center;
-            width: 100%;
-            background-color: #4a98ed; /* Darker blue */
-            padding: 10px 0;
-            text-align: center;
-        }
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--cream);
+    font-size: 15px;
+}
 
-        .navbar a {
-            color: white;
-            padding: 12px 20px;
-            text-decoration: none;
-            font-size: 1.1em;
-            margin: 0 10px;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
+.main--navbar {
+    display: flex;
+    justify-content: center;
+}
 
-        .navbar a:hover {
-            background-color: #0c78ed; /* Even darker blue */
-        }
-        
+.container {
+    background-color: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 40px;
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+}
+
+.navbar {
+    position: static;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    background-color: #f9cccf;
+    padding: 10px;
+    text-align: center;
+}
+
+.navbar a {
+    display: inline-block;
+    color: var(--dark-gray);
+    padding: 12px 20px;
+    text-decoration: none;
+    font-size: 1.1em;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.navbar a:hover {
+    background-color: #e8aeb7; /* Even darker blue */
+}
+
+@media screen and (min-width: 992px) {
+    .main--navbar {
+        padding-top: 65px;
+    }
+
+    .navbar {
+        position: fixed;
+    }
+}
