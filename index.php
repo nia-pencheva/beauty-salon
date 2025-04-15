@@ -171,8 +171,8 @@ $is_logged_in = isset($_SESSION['id']) && $_SESSION['id'];
                     <a href="profile.php">Профил</a>
                     <a href="logout.php">Изход</a>
                 <?php else: ?>
+                    <a href="profile.php">Профил</a>
                     <a href="login.php">Вход</a>
-                    <a href="register.php">Регистрация</a>
                 <?php endif; ?>
             </div>
         </div>
@@ -189,8 +189,7 @@ $is_logged_in = isset($_SESSION['id']) && $_SESSION['id'];
         <?php endif; ?>
 
         <?php if (!$is_logged_in): ?>
-            <a href="login.php" class="button">Вход</a>
-            <a href="register.php" class="button">Регистрация</a>
+            <a href="bookAppointment.php" class="button">Запази час</a>
         <?php else: ?>
             <a href="bookAppointment.php" class="button">Запази час</a>
         <?php endif; ?>
