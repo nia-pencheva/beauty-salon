@@ -20,11 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $_SESSION['logged_in'] = true;
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['id'] = $user['id'];
-                //$_SESSION['role'] = $user['role']; // Store the role in the session
-
-                
-                header('Location: index.php'); // User dashboard
-                
+                header('Location: index.php');
                 exit;
             } else {
                 $error = "Грешно потребителско име или парола. <br><a href='register.php'>Регистрирайте се тук</a>";
@@ -37,7 +33,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $error = "Моля, попълнете всички полета!";
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -47,24 +42,39 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Вход</title>
     <style>
+        /*  Color Palette:
+            #f9cccf – Header pink
+            #e8aeb7 – Hover accent
+            #a1d8bb – Button green
+            #7db89e – Button green hover
+            #fff9f7 – Main background
+            #ffffff – Form background
+            #444444 – Text
+            #ff4d4d – Error red
+        */
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            background: linear-gradient(135deg, #f3f4f7, #dce0e6);
-            color: #333;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #fff9f7, #f9cccf);
+            color: #444444;
         }
 
         .container {
             text-align: center;
             padding: 40px;
             background: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
             width: 100%;
             max-width: 400px;
         }
@@ -72,7 +82,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         h1 {
             font-size: 2em;
             margin-bottom: 20px;
-            color: #007bff;
+            color: #e8aeb7;
+            text-align: center;
+            width: 100%;
+            max-width: 100%;
         }
 
         form {
@@ -80,56 +93,65 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         label {
-            font-size: 1.1em;
+            font-size: 1em;
             margin-bottom: 8px;
             display: block;
         }
 
         input[type="text"],
-        input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 1em;
-        }
-
+        input[type="password"],
         input[type="submit"] {
             width: 100%;
             padding: 12px;
-            background-color: #007bff;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1em;
+            background-color: #fff9f7;
+        }
+
+        input[type="submit"] {
+            background-color: #a1d8bb;
+            color: #ffffff;
+            font-weight: bold;
             border: none;
-            border-radius: 5px;
-            color: #fff;
-            font-size: 1.1em;
-            cursor: pointer;
             transition: background-color 0.3s ease;
         }
 
         input[type="submit"]:hover {
-            background-color: #0056b3;
+            background-color: #7db89e;
         }
 
         p {
-            font-size: 0.9em;
-            color: #ff0000;
-            margin-top: 10px;
+            font-size: 0.95em;
+            margin-top: 12px;
         }
 
-        .success {
+        p.error {
+            color: #ff4d4d;
+        }
+
+        p.success {
             color: #28a745;
-            font-size: 1.1em;
-            margin-top: 20px;
         }
 
         a {
-            color: #007bff;
+            color: #e8aeb7;
             text-decoration: none;
         }
 
         a:hover {
             text-decoration: underline;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 1.6em;
+            }
         }
     </style>
 </head>
@@ -143,13 +165,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <input type="password" id="password" name="password" required>
             <input type="submit" value="Влез">
         </form>
-        
-        <!-- Display error message if login fails -->
+
         <?php if (isset($error)): ?>
-            <p><?php echo $error; ?></p>
+            <p class="error"><?php echo $error; ?></p>
         <?php endif; ?>
 
-        <!-- Optionally, display a success message if the user has logged out successfully -->
         <?php if (isset($_SESSION['logout_message'])): ?>
             <p class="success"><?php echo $_SESSION['logout_message']; unset($_SESSION['logout_message']); ?></p>
         <?php endif; ?>
