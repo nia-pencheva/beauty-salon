@@ -21,14 +21,6 @@ $is_logged_in = isset($_SESSION['id']) && $_SESSION['id'];
         #ccc – Borders
     */
 
-    body {
-        font-family: 'Segoe UI', sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #fff9f7;
-        color: #444444;
-    }
-
     .logo img {
         height: 48px;
     }
@@ -45,7 +37,7 @@ $is_logged_in = isset($_SESSION['id']) && $_SESSION['id'];
         max-width: 400px;
         padding: 10px 15px;
         border-radius: 6px;
-        border: 1px solid #ccc;
+        border: 1px solid var(--light-gray);
         font-size: 1em;
         background-color: #ffffff;
     }
@@ -55,7 +47,7 @@ $is_logged_in = isset($_SESSION['id']) && $_SESSION['id'];
         margin: 50px auto;
         padding: 40px;
         background-color: #ffffff;
-        border: 1px solid #ccc;
+        border: 1px solid var(--light-gray);
         border-radius: 12px;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
         text-align: center;
@@ -64,7 +56,7 @@ $is_logged_in = isset($_SESSION['id']) && $_SESSION['id'];
     h1 {
         font-size: 2.5em;
         margin-bottom: 20px;
-        color: #e8aeb7;
+        color: var(--dark-pink);
     }
 
     .description {
@@ -76,7 +68,7 @@ $is_logged_in = isset($_SESSION['id']) && $_SESSION['id'];
         display: inline-block;
         margin: 10px 10px;
         padding: 12px 24px;
-        background-color: #a1d8bb;
+        background-color: var(--light-mint-green);
         color: #ffffff;
         font-weight: bold;
         text-decoration: none;
@@ -85,7 +77,7 @@ $is_logged_in = isset($_SESSION['id']) && $_SESSION['id'];
     }
 
     a.button:hover {
-        background-color: #7db89e;
+        background-color: var(--dark-mint-green);
     }
 
     .logout-message {

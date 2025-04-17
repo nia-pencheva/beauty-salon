@@ -15,10 +15,6 @@
     border: 0;
 }
 
-html {
-    height: 100%;
-}
-
 body {
     font-family: 'Arial', sans-serif;
     margin: 0;
@@ -26,7 +22,6 @@ body {
     background-color: var(--cream);
     color: var(--dark-gray);
     font-size: 15px;
-    height: 100%;
     min-width: 360px;
 }
 
@@ -34,29 +29,99 @@ header {
     background-color: var(--light-pink);
     padding: 15px 30px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    position: sticky;
-    top: 0;
+    position: relative; /* Default for mobile */
+}
+
+/* Mobile-first styles */
+.header-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+    z-index: 1001;
+}
+
+.hamburger-menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 25px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    position: relative;
+    z-index: 1001;
+}
+
+.hamburger-menu span {
+    width: 30px;
+    height: 3px;
+    background: var(--dark-pink);
+    border-radius: 10px;
+    position: relative;
+    display: block;
+}
+
+/* Hamburger animation transitions */
+.hamburger-menu span:nth-child(1),
+.hamburger-menu span:nth-child(3) {
+    transition: transform 0.3s ease-in-out;
+}
+
+.hamburger-menu span:nth-child(2) {
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.hamburger-menu.active span:nth-child(1) {
+    transform: rotate(45deg) translate(6px, 6px);
+}
+
+.hamburger-menu.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-menu.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(6px, -6px);
+}
+
+/* Mobile Navigation */
+.nav-menu {
+    position: fixed;
+    top: -100vh;
+    left: 0;
+    right: 0;
+    height: auto;
+    width: 100%;
+    background: var(--light-pink);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 70px 20px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     z-index: 1000;
 }
 
-.header-container {
+.nav-menu__section {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
+    flex-direction: row;
 }
 
-.nav-menu {
-    display: flex;
-    gap: 15px;
-    align-items: center;
+.nav-menu.active {
+    top: 0;
 }
 
 .nav-menu a {
     text-decoration: none;
     color: var(--dark-gray);
     font-weight: 600;
-    padding: 8px 14px;
+    margin: 10px 0;
+    font-size: 1.2rem;
+    text-align: center;
+    width: 100%;
+    padding: 10px;
     border-radius: 6px;
     transition: background-color 0.3s ease;
 }
@@ -66,6 +131,45 @@ header {
     color: white;
 }
 
+/* Desktop styles */
+@media screen and (min-width: 768px) {
+    header {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .header-container {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .hamburger-menu {
+        display: none;
+    }
+
+    .nav-menu {
+        position: static;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 0;
+        box-shadow: none;
+        background: transparent;
+        gap: 15px;
+        width: 100%;
+    }
+
+    .nav-menu a {
+        margin: 0;
+        font-size: 15px;
+        width: auto;
+        padding: 8px 14px;
+    }
+}
+
+/* Keep your existing utility classes */
 .content--centered-both {
     display: flex; 
     justify-content: center; 
@@ -81,21 +185,4 @@ header {
     padding: 40px;
     width: 100%;
     text-align: center;
-}
-
-@media (max-width: 768px) {
-    .header-container {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .nav-menu {
-        flex-wrap: wrap;
-        justify-content: center;
-        width: 100%;
-    }
-
-    .nav-menu a {
-        margin-bottom: 5px;
-    }
 }

@@ -99,7 +99,7 @@ $is_logged_in = isset($_SESSION['id']) && $_SESSION['id'];
     <!-- HEADER -->
     <?php include 'header.php'; ?>
 
-    <div class="content--centered-both" style="height: calc(100% - 63px);">
+    <div class="content--centered-both" style="height: calc(100vh - 63px);">
         <div class="container container--about-us">
             <div>
                 <img

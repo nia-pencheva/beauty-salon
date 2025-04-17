@@ -111,7 +111,7 @@ if(!isset($_SESSION['id'])) {
 </head>
 
 <body>
-    <div class="content--centered-both">
+    <div class="content--centered-both" style="height: 100vh;">
         <div class="container container--booking-availability">
             <!-- <input
                 id="date-picker"
