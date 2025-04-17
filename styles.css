@@ -15,59 +15,87 @@
     border: 0;
 }
 
+html {
+    height: 100%;
+}
+
 body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
     background-color: var(--cream);
     font-size: 15px;
+    height: 100%;
+    min-width: 360px;
 }
 
-.main--navbar {
+header {
+    background-color: var(--light-pink);
+    padding: 15px 30px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-container {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.nav-menu {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.nav-menu a {
+    text-decoration: none;
+    color: var(--dark-gray);
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+}
+
+.nav-menu a:hover {
+    background-color: var(--dark-pink);
+    color: white;
 }
 
 .container {
-    background-color: #fff;
+    background-color: white;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
     padding: 40px;
     width: 100%;
     max-width: 600px;
     text-align: center;
 }
 
-.navbar {
-    position: static;
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    background-color: #f9cccf;
-    padding: 10px;
-    text-align: center;
+@media screen and (min-width: 600px) {
+    .container {
+        border: 1px solid #ccc;
+        border-radius: 12px;
+    }
 }
 
-.navbar a {
-    display: inline-block;
-    color: var(--dark-gray);
-    padding: 12px 20px;
-    text-decoration: none;
-    font-size: 1.1em;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-.navbar a:hover {
-    background-color: #e8aeb7; /* Even darker blue */
-}
-
-@media screen and (min-width: 992px) {
-    .main--navbar {
-        padding-top: 65px;
+@media (max-width: 768px) {
+    .header-container {
+        flex-direction: column;
+        align-items: flex-start;
     }
 
-    .navbar {
-        position: fixed;
+    .nav-menu {
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .nav-menu a {
+        margin-bottom: 5px;
     }
 }

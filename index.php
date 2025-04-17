@@ -8,6 +8,7 @@ $is_logged_in = isset($_SESSION['id']) && $_SESSION['id'];
 <head>
     <meta charset="UTF-8">
     <title>Салон за Красота</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
     <style>
     /* 🎨 Color Palette Reference:
         #f9cccf – Header
@@ -26,22 +27,6 @@ $is_logged_in = isset($_SESSION['id']) && $_SESSION['id'];
         padding: 0;
         background-color: #fff9f7;
         color: #444444;
-    }
-
-    header {
-        background-color: #f9cccf;
-        padding: 15px 30px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-    }
-
-    .header-container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
     }
 
     .logo img {
@@ -63,26 +48,6 @@ $is_logged_in = isset($_SESSION['id']) && $_SESSION['id'];
         border: 1px solid #ccc;
         font-size: 1em;
         background-color: #ffffff;
-    }
-
-    .nav-menu {
-        display: flex;
-        gap: 15px;
-        align-items: center;
-    }
-
-    .nav-menu a {
-        text-decoration: none;
-        color: #444444;
-        font-weight: 600;
-        padding: 8px 14px;
-        border-radius: 6px;
-        transition: background-color 0.3s ease;
-    }
-
-    .nav-menu a:hover {
-        background-color: #e8aeb7;
-        color: white;
     }
 
     .container {
@@ -136,24 +101,9 @@ $is_logged_in = isset($_SESSION['id']) && $_SESSION['id'];
     }
 
     @media (max-width: 768px) {
-        .header-container {
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
         .search-bar {
             width: 100%;
             padding: 10px 0;
-        }
-
-        .nav-menu {
-            flex-wrap: wrap;
-            justify-content: center;
-            width: 100%;
-        }
-
-        .nav-menu a {
-            margin-bottom: 5px;
         }
     }
     </style>
@@ -161,22 +111,7 @@ $is_logged_in = isset($_SESSION['id']) && $_SESSION['id'];
 <body>
 
     <!-- HEADER -->
-    <header>
-        <div class="header-container">
-           
-            <div class="nav-menu">
-                <a href="#">Услуги</a>
-                <a href="#">За нас</a>
-                <?php if ($is_logged_in): ?>
-                    <a href="profile.php">Профил</a>
-                    <a href="logout.php">Изход</a>
-                <?php else: ?>
-                    <a href="profile.php">Профил</a>
-                    <a href="login.php">Вход</a>
-                <?php endif; ?>
-            </div>
-        </div>
-    </header>
+    <?php include 'header.php'; ?>
 
     <!-- MAIN CONTENT -->
     <div class="container">

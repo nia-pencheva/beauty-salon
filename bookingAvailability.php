@@ -25,21 +25,22 @@ if(!isset($_SESSION['id'])) {
     <link rel="stylesheet" type="text/css" href="styles.css">
 
     <style>
+        #datepicker-label-br {
+            display: inline-block;
+        }
+
         #datepicker {
+            margin-top: 10px;
+            background-color: var(--cream);
             border: 1px solid var(--light-gray);
             padding: 5px;
             border-radius: 6px;
         }
 
-        #datepicker:focus {
-            border: 1px solid var(--light-mint-green);
-            outline: none;
-        }
-
         #times {
             display: grid;
             width: max-content;
-            grid-template-columns: repeat(5, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             margin: 40px auto 0px;
             gap: 10px;
         }
@@ -73,27 +74,47 @@ if(!isset($_SESSION['id'])) {
             background-color: var(--light-mint-green);
             border: 1px solid var(--dark-gray);
         }
+
+        @media screen and (min-width: 400px) {
+            #datepicker {
+                margin-top: 0;
+            }
+            
+            #datepicker-label-br {
+                display: none;
+            }
+        }
+
+        @media screen and (min-width: 450px) {
+            #times {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        @media screen and (min-width: 600px) {
+            #times {
+                grid-template-columns: repeat(5, 1fr);
+            }
+        }
     </style>
 </head>
 
 <body>
-    <?php include 'navbar.php'; ?>
-
-    <main class="main--navbar">
+    <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
         <div class="container">
             <!-- <input
                 id="date-picker"
                 type="date"
             /> -->
 
-            <label for="datepicker">Изберете дата: </label>
+            <label id="datepicker-label" for="datepicker">Изберете дата: </label>
+            <br id="datepicker-label-br">
             <input type="text" id="datepicker">
 
             <div id="times"></div>
         </div>
-    </main>
+    </div>
     
-
     <script>
         let datePicker = $("#datepicker");
         let times = document.getElementById('times');
