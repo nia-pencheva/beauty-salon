@@ -25,6 +25,17 @@ if(!isset($_SESSION['id'])) {
     <link rel="stylesheet" type="text/css" href="styles.css">
 
     <style>
+        .container--booking-availability {
+            max-width: 600px;
+        }
+
+        @media screen and (min-width: 600px) {
+            .container--booking-availability {
+                border: 1px solid #ccc;
+                border-radius: 12px;
+            }
+        }
+
         #datepicker-label-br {
             display: inline-block;
         }
@@ -100,8 +111,8 @@ if(!isset($_SESSION['id'])) {
 </head>
 
 <body>
-    <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
-        <div class="container">
+    <div class="content--centered-both">
+        <div class="container container--booking-availability">
             <!-- <input
                 id="date-picker"
                 type="date"
