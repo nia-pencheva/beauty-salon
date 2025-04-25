@@ -1,18 +1,18 @@
 <?php
-include "config.php"; 
+include "config.php";
 
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-$is_logged_in = isset($_SESSION['id']); 
+$is_logged_in = isset($_SESSION['id']);
 
 if (!$is_logged_in) {
     header('Location: index.php');
-    exit(); 
+    exit();
 }
 
-include "header.php"; 
+include "header.php";
 
 $user_id = $_SESSION['id'];
 $query = "SELECT full_name, email FROM users WHERE id = '$user_id'";
@@ -27,7 +27,8 @@ if ($result) {
     exit();
 }
 
-// Join query to fetch procedure details
+$current_time = new DateTime();
+
 $reservation_query = "
     SELECT 
         bp.date, 
@@ -42,6 +43,16 @@ $reservation_query = "
 
 $reservation_result = mysqli_query($conn, $reservation_query);
 $reservations = mysqli_fetch_all($reservation_result, MYSQLI_ASSOC);
+
+$upcoming_reservations = [];
+foreach ($reservations as $reservation) {
+    $reservation_datetime = new DateTime($reservation['date'] . ' ' . $reservation['time']);
+    $interval = $current_time->diff($reservation_datetime);
+
+    if ($interval->invert == 0 && $interval->days == 0 && $interval->h < 24) {
+        $upcoming_reservations[] = $reservation;
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -51,8 +62,6 @@ $reservations = mysqli_fetch_all($reservation_result, MYSQLI_ASSOC);
     <title>Профил | Салон за Красота</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
     <style>
-        /* 🎨 Color Palette Reference */
-        /* Adjusting for colors provided */
         :root {
             --light-pink: #f9cccf;
             --hover-pink: #e8aeb7;
@@ -62,9 +71,9 @@ $reservations = mysqli_fetch_all($reservation_result, MYSQLI_ASSOC);
             --white: #ffffff;
             --dark-text: #444444;
             --border-color: #ccc;
+            --light-red: #f4aaaa;
         }
 
-        /* Add custom styles for the profile page */
         body {
             background-color: var(--main-background);
             color: var(--dark-text);
@@ -86,7 +95,6 @@ $reservations = mysqli_fetch_all($reservation_result, MYSQLI_ASSOC);
             color: #7db89e;
         }
 
-        /* "Вашата информация" - no centering, applied colors */
         .profile-info {
             margin: 20px 0;
             text-align: left;
@@ -101,7 +109,6 @@ $reservations = mysqli_fetch_all($reservation_result, MYSQLI_ASSOC);
             color: #7db89e;
         }
 
-        /* "Вашите Резервации" - Pink color */
         h2 {
             font-size: 2.5em;
             margin-bottom: 20px;
@@ -139,23 +146,70 @@ $reservations = mysqli_fetch_all($reservation_result, MYSQLI_ASSOC);
         .button:hover {
             background-color: var(--button-hover-green);
         }
+
+        /* Important reminder styles */
+        .important-reminder {
+            border: 2px solid var(--light-red);
+            background-color: #fff0f0;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 0 12px rgba(244, 170, 170, 0.6);
+            animation: pulseReminder 2s infinite;
+        }
+
+        .important-reminder h2 {
+            color: #d9534f;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .upcoming-events-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #ffe5e5;
+            border: 1px solid var(--light-red);
+        }
+
+        .upcoming-events-table th, .upcoming-events-table td {
+            padding: 12px;
+            border: 1px solid var(--light-red);
+            text-align: left;
+        }
+
+        .upcoming-events-table th {
+            background-color: var(--light-red);
+            color: white;
+        }
+
+        @keyframes pulseReminder {
+            0% {
+                box-shadow: 0 0 10px rgba(244, 170, 170, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 20px rgba(244, 170, 170, 0.9);
+            }
+            100% {
+                box-shadow: 0 0 10px rgba(244, 170, 170, 0.4);
+            }
+        }
     </style>
 </head>
 <body>
 
-    <!-- MAIN CONTENT -->
-    <div class="container">
-        <h1>Здравейте, <?php echo htmlspecialchars($user_name); ?>!</h1>
+<div class="container">
+    <h1>Здравейте, <?php echo htmlspecialchars($user_name); ?>!</h1>
 
-        <div class="profile-info">
-            <p><strong>Вашата информация -</strong></p>
-            <p>Име: <?php echo htmlspecialchars($user_name); ?></p>
-            <p>Имейл: <?php echo htmlspecialchars($user_email); ?></p>
-        </div>
+    <div class="profile-info">
+        <p><strong>Вашата информация -</strong></p>
+        <p>Име: <?php echo htmlspecialchars($user_name); ?></p>
+        <p>Имейл: <?php echo htmlspecialchars($user_email); ?></p>
+    </div>
 
-        <h2>Вашите Резервации</h2>
-        <?php if (count($reservations) > 0): ?>
-            <table class="reservation-table">
+    <?php if (count($upcoming_reservations) > 0): ?>
+        <div class="important-reminder">
+            <h2>Предстоящи събития</h2>
+            <table class="upcoming-events-table">
                 <tr>
                     <th>Дата</th>
                     <th>Час</th>
@@ -163,22 +217,45 @@ $reservations = mysqli_fetch_all($reservation_result, MYSQLI_ASSOC);
                     <th>Продължителност (мин)</th>
                     <th>Цена</th>
                 </tr>
-                <?php foreach ($reservations as $reservation): ?>
+                <?php foreach ($upcoming_reservations as $event): ?>
                     <tr>
-                        <td><?php echo htmlspecialchars($reservation['date']); ?></td>
-                        <td><?php echo htmlspecialchars($reservation['time']); ?></td>
-                        <td><?php echo htmlspecialchars($reservation['procedure_name']); ?></td>
-                        <td><?php echo htmlspecialchars($reservation['duration_minutes']); ?> мин</td>
-                        <td><?php echo htmlspecialchars($reservation['price']); ?> лв</td>
+                        <td><?php echo htmlspecialchars($event['date']); ?></td>
+                        <td><?php echo htmlspecialchars($event['time']); ?></td>
+                        <td><?php echo htmlspecialchars($event['procedure_name']); ?></td>
+                        <td><?php echo htmlspecialchars($event['duration_minutes']); ?> мин</td>
+                        <td><?php echo htmlspecialchars($event['price']); ?> лв</td>
                     </tr>
                 <?php endforeach; ?>
             </table>
-        <?php else: ?>
-            <p>Нямате направени резервации.</p>
-        <?php endif; ?>
+        </div>
+    <?php endif; ?>
 
-        <a href="bookingAvailability.php" class="button">Запази нов час</a>
-    </div>
+    <h2>Вашите Резервации</h2>
+    <?php if (count($reservations) > 0): ?>
+        <table class="reservation-table">
+            <tr>
+                <th>Дата</th>
+                <th>Час</th>
+                <th>Услуга</th>
+                <th>Продължителност (мин)</th>
+                <th>Цена</th>
+            </tr>
+            <?php foreach ($reservations as $reservation): ?>
+                <tr>
+                    <td><?php echo htmlspecialchars($reservation['date']); ?></td>
+                    <td><?php echo htmlspecialchars($reservation['time']); ?></td>
+                    <td><?php echo htmlspecialchars($reservation['procedure_name']); ?></td>
+                    <td><?php echo htmlspecialchars($reservation['duration_minutes']); ?> мин</td>
+                    <td><?php echo htmlspecialchars($reservation['price']); ?> лв</td>
+                </tr>
+            <?php endforeach; ?>
+        </table>
+    <?php else: ?>
+        <p>Нямате направени резервации.</p>
+    <?php endif; ?>
+
+    <a href="bookingAvailability.php" class="button">Запази нов час</a>
+</div>
 
 </body>
 </html>
