@@ -160,18 +160,45 @@ if(!isset($_SESSION['id'])) {
         }
 
         function createTimeElement(time) {
-            timeElement = document.createElement("a");
-            timeElement.classList.add('time-element');
-            timeElement.innerText = time.time;
+    timeElement = document.createElement("a");
+    timeElement.classList.add('time-element');
+    timeElement.innerText = time.time;
 
-            if(time.available) {
-                timeElement.href = "/book.php";
-                timeElement.classList.add('time-element--active');
-            }
-            else {
-                timeElement.classList.add('time-element--inactive');
-            }
-        }
+    // Create the hidden form for booking
+    let form = document.createElement('form');
+    form.method = 'POST';
+    form.action = 'bookAppointment.php';
+
+    // Create hidden input for procedure_id
+    let serviceInput = document.createElement('input');
+    serviceInput.type = 'hidden';
+    serviceInput.name = 'service_id';
+    serviceInput.value = 1; // You can dynamically set the service_id if needed
+
+    // Create hidden input for appointment_time
+    let timeInput = document.createElement('input');
+    timeInput.type = 'hidden';
+    timeInput.name = 'appointment_time';
+    timeInput.value = time.time; // Send the selected time as value
+
+    form.appendChild(serviceInput);
+    form.appendChild(timeInput);
+
+    // If time is available, make it a clickable element
+    if (time.available) {
+        timeElement.href = '#';
+        timeElement.classList.add('time-element--active');
+        timeElement.onclick = function () {
+            form.submit(); // Submit the form when time is selected
+        };
+    } else {
+        timeElement.classList.add('time-element--inactive');
+    }
+
+    times.appendChild(timeElement);
+    times.appendChild(form); // Append the form after each time element
+}
+
     </script>
 </body>
 </html>

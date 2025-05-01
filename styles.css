@@ -186,3 +186,51 @@ header {
     width: 100%;
     text-align: center;
 }
+
+form button {
+    padding: 12px 24px;
+    background-color: #a1d8bb;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form button:hover {
+    background-color: #7db89e;
+}
+
+
+.success-message {
+    color: green;
+    font-weight: bold;
+    padding: 15px;
+    margin: 10px 0;
+    background-color: #e8f7e7;
+    border-radius: 6px;
+}
+
+.error-message {
+    color: red;
+    font-weight: bold;
+    padding: 15px;
+    margin: 10px 0;
+    background-color: #f8e7e7;
+    border-radius: 6px;
+}
+.reservation-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.reservation-table th, .reservation-table td {
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    text-align: left;
+}
+
+.reservation-table th {
+    background-color: var(--light-pink);
+}

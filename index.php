@@ -102,6 +102,7 @@ $is_logged_in = isset($_SESSION['id']) && $_SESSION['id'];
 </head>
 <body>
 
+  
     <!-- HEADER -->
     <?php include 'header.php'; ?>
 
@@ -109,6 +110,7 @@ $is_logged_in = isset($_SESSION['id']) && $_SESSION['id'];
     <div class="container">
         <h1>Салон за Красота</h1>
         <p class="description">
+            Добре дошли в нашия салон за красота! Тук можете да запазите час за любимите си козметични услуги.
         </p>
 
         <?php if (isset($_GET['logout']) && $_GET['logout'] == 'success'): ?>

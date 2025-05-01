@@ -7,9 +7,10 @@
         </button>
         <div class="nav-menu">
             <div class="nav-menu__section">
-                <a href="index.php">Услуги</a>
+                <a href="cosmetic_services.php">Услуги</a>
                 <a href="aboutUs.php">За нас</a>
             </div>
+           
 
             <div class="nav-menu__section">
                 <?php if ($is_logged_in): ?>
