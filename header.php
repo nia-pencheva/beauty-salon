@@ -17,7 +17,7 @@
                     <a href="profile.php">Профил</a>
                     <a href="logout.php">Изход</a>
                 <?php else: ?>
-                    <a href="profile.php">Профил</a>
+                   
                     <a href="login.php">Вход</a>
                 <?php endif; ?>
             </div>

@@ -42,7 +42,18 @@ $reservation_query = "
     WHERE bp.user_id = '$user_id'";
 
 $reservation_result = mysqli_query($conn, $reservation_query);
-$reservations = mysqli_fetch_all($reservation_result, MYSQLI_ASSOC);
+$all_reservations = mysqli_fetch_all($reservation_result, MYSQLI_ASSOC);
+$reservations = [];
+
+foreach ($all_reservations as $reservation) {
+    $reservation_datetime = new DateTime($reservation['date'] . ' ' . $reservation['time']);
+
+ 
+    if ($reservation_datetime > $current_time) {
+        $reservations[] = $reservation;
+    }
+}
+
 
 $upcoming_reservations = [];
 foreach ($reservations as $reservation) {

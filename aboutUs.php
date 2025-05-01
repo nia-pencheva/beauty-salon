@@ -114,7 +114,7 @@ $is_logged_in = isset($_SESSION['id']) && $_SESSION['id'];
                     <span class="about-us__details__label">
                         <img 
                             style="height: 20px;"
-                            src="/images/location.png" 
+                            src="./images/location.png" 
                         />
                         Адрес:
                     </span>
