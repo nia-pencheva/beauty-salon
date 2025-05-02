@@ -3,17 +3,24 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
+include "config.php";
+
 if(!isset($_SESSION['id'])) {
     header('Location: index.php');
 }
 
+$stmt = $conn->prepare("SELECT * FROM procedures WHERE id = ?");
+$stmt->execute([$_GET['procedure_id']]);
+$procedure = $stmt->get_result()->fetch_assoc();
+$procedureName = mb_strtolower($procedure["name"]);
+$procedureId = $procedure["id"];
 ?>
 
 <!DOCTYPE html>
 <html lang="bg">
 <head>
     <meta charset="UTF-8">
-    <title>Изберете час</title>
+    <title>Изберете час | Салон "MAO MAO"</title>
 
     <!-- JS -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -52,7 +59,7 @@ if(!isset($_SESSION['id'])) {
             display: grid;
             width: max-content;
             grid-template-columns: repeat(3, 1fr);
-            margin: 40px auto 0px;
+            margin: 40px auto;
             gap: 10px;
         }
 
@@ -63,6 +70,7 @@ if(!isset($_SESSION['id'])) {
         }
 
         .time-element--active {
+            cursor: pointer;
             color: var(--dark-gray);
             text-decoration: none;
             border: 1px solid var(--dark-gray);
@@ -118,11 +126,20 @@ if(!isset($_SESSION['id'])) {
                 type="date"
             /> -->
 
+            <h2 style="margin-bottom: 20px; color: var(--dark-mint-green);">Изберете час за <?= $procedureName ?></h2>
             <label id="datepicker-label" for="datepicker">Изберете дата: </label>
             <br id="datepicker-label-br">
             <input type="text" id="datepicker">
 
             <div id="times"></div>
+
+            <a href="index.php" class="button button--secondary">Отказ</a>
+
+            <form action="confirmBooking.php" id="book-appointment-form" method="GET">
+                <input type="hidden" name="procedure_id" value="<?= $procedureId ?>">
+                <input type="hidden" name="date" id="date-input">
+                <input type="hidden" name="time" id="time-input">
+            </form>
         </div>
     </div>
     
@@ -165,13 +182,24 @@ if(!isset($_SESSION['id'])) {
             timeElement.innerText = time.time;
 
             if(time.available) {
-                timeElement.href = "/book.php";
                 timeElement.classList.add('time-element--active');
             }
             else {
                 timeElement.classList.add('time-element--inactive');
             }
         }
+
+        times.addEventListener('click', function(event) {
+            if(event.target.classList.contains('time-element--active')) {
+                let selectedTime = event.target.innerText;
+                let selectedDate = datePicker.val().split('.').reverse().join('-');
+
+                document.getElementById('date-input').value = selectedDate;
+                document.getElementById('time-input').value = selectedTime;
+
+                document.getElementById('book-appointment-form').submit();
+            }
+        });
     </script>
 </body>
 </html>

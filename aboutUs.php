@@ -7,7 +7,7 @@ $is_logged_in = isset($_SESSION['id']) && $_SESSION['id'];
 <html lang="bg">
 <head>
     <meta charset="UTF-8">
-    <title>За нас</title>
+    <title>За нас | Салон "MAO MAO"</title>
 
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="styles.css">
@@ -19,6 +19,7 @@ $is_logged_in = isset($_SESSION['id']) && $_SESSION['id'];
             align-items: center;
             gap: 50px;
             max-width: 1200px;
+            margin: 50px auto;
         }
 
         .container--about-us div {
@@ -99,48 +100,46 @@ $is_logged_in = isset($_SESSION['id']) && $_SESSION['id'];
     <!-- HEADER -->
     <?php include 'header.php'; ?>
 
-    <div class="content--centered-both" style="height: calc(100vh - 63px);">
-        <div class="container container--about-us">
-            <div>
-                <img
-                    id="beauty-salon-img" 
-                    src="/images/beauty-salon-inside.png" 
-                />
-            </div>
+    <div class="container container--about-us">
+        <div>
+            <img
+                id="beauty-salon-img" 
+                src="/images/beauty-salon-inside.png" 
+            />
+        </div>
 
-            <div class="about-us__details">
-                <h1 id="about-us__heading">Салон "MAO MAO"</h1>
-                <p>
-                    <span class="about-us__details__label">
-                        <img 
-                            style="height: 20px;"
-                            src="/images/location.png" 
-                        />
-                        Адрес:
-                    </span>
-                    ул. "Морски бриз" №24, Варна
-                </p>
-                <p>
-                    <span class="about-us__details__label">
-                        <img 
-                            style="height: 18px; padding-left: 2px;"
-                            src="/images/phone.png" 
-                        />
-                        Телефон:
-                    </span>
-                    +3594307501158
-                </p>
-                <p>
-                    <span class="about-us__details__label">
-                        <img 
-                            style="height: 18px; padding-right: 2px;"
-                            src="/images/working-hours.png" 
-                        />
-                        Работно време:
-                    </span>
-                    Понеделник - Петък, 9:00 - 18:00 
-                </p>
-            </div>
+        <div class="about-us__details">
+            <h1 id="about-us__heading">Салон "MAO MAO"</h1>
+            <p>
+                <span class="about-us__details__label">
+                    <img 
+                        style="height: 20px;"
+                        src="/images/location.png" 
+                    />
+                    Адрес:
+                </span>
+                ул. "Морски бриз" №24, Варна
+            </p>
+            <p>
+                <span class="about-us__details__label">
+                    <img 
+                        style="height: 18px; padding-left: 2px;"
+                        src="/images/phone.png" 
+                    />
+                    Телефон:
+                </span>
+                +3594307501158
+            </p>
+            <p>
+                <span class="about-us__details__label">
+                    <img 
+                        style="height: 18px; padding-right: 2px;"
+                        src="/images/working-hours.png" 
+                    />
+                    Работно време:
+                </span>
+                Понеделник - Петък, 9:00 - 18:00 
+            </p>
         </div>
     </div>
 </body>

@@ -42,7 +42,17 @@ $reservation_query = "
     WHERE bp.user_id = '$user_id'";
 
 $reservation_result = mysqli_query($conn, $reservation_query);
-$reservations = mysqli_fetch_all($reservation_result, MYSQLI_ASSOC);
+$all_reservations = mysqli_fetch_all($reservation_result, MYSQLI_ASSOC);
+$reservations = [];
+
+foreach ($all_reservations as $reservation) {
+    $reservation_datetime = new DateTime($reservation['date'] . ' ' . $reservation['time']);
+
+    if ($reservation_datetime > $current_time) {
+        $reservations[] = $reservation;
+    }
+}
+
 
 $upcoming_reservations = [];
 foreach ($reservations as $reservation) {
@@ -59,7 +69,7 @@ foreach ($reservations as $reservation) {
 <html lang="bg">
 <head>
     <meta charset="UTF-8">
-    <title>Профил | Салон за Красота</title>
+    <title>Профил | Салон "MAO MAO"</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
     <style>
         :root {
@@ -74,19 +84,16 @@ foreach ($reservations as $reservation) {
             --light-red: #f4aaaa;
         }
 
-        body {
-            background-color: var(--main-background);
-            color: var(--dark-text);
-        }
-
-        .container {
+        .container--profile {
             max-width: 800px;
             margin: 50px auto;
-            padding: 40px;
-            background-color: var(--white);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        @media screen and (min-width: 800px) {
+            .container--profile {
+                border: 1px solid #ccc;
+                border-radius: 12px;
+            }
         }
 
         h1 {
@@ -197,14 +204,21 @@ foreach ($reservations as $reservation) {
 </head>
 <body>
 
-<div class="container">
-    <h1>Здравейте, <?php echo htmlspecialchars($user_name); ?>!</h1>
+<div class="container container--profile">
+    <?php if (isset($_SESSION['booking_success'])) {
+        echo "<p class='success'>" . $_SESSION['booking_success'] . "</p>";
+        unset($_SESSION['booking_success']);
+    } ?>
+
+    <h1 style="font-size: 2em; color: var(--dark-mint-green);">Здравейте, <?php echo htmlspecialchars($user_name); ?>!</h1>
 
     <div class="profile-info">
-        <p><strong>Вашата информация -</strong></p>
-        <p>Име: <?php echo htmlspecialchars($user_name); ?></p>
-        <p>Имейл: <?php echo htmlspecialchars($user_email); ?></p>
+        <p style="margin-bottom: 10px;"><strong>Вашата информация</strong></p>
+        <p><b>Име:</b> <?php echo htmlspecialchars($user_name); ?></p>
+        <p><b>Имейл:</b> <?php echo htmlspecialchars($user_email); ?></p>
     </div>
+
+    <br>
 
     <?php if (count($upcoming_reservations) > 0): ?>
         <div class="important-reminder">
@@ -230,7 +244,7 @@ foreach ($reservations as $reservation) {
         </div>
     <?php endif; ?>
 
-    <h2>Вашите Резервации</h2>
+    <h2 style="font-size: 2em; color: var(--dark-mint-green);">Вашите Резервации</h2>
     <?php if (count($reservations) > 0): ?>
         <table class="reservation-table">
             <tr>
@@ -253,8 +267,6 @@ foreach ($reservations as $reservation) {
     <?php else: ?>
         <p>Нямате направени резервации.</p>
     <?php endif; ?>
-
-    <a href="bookingAvailability.php" class="button">Запази нов час</a>
 </div>
 
 </body>

@@ -2,6 +2,9 @@
 session_start();
 include "config.php";
 
+$redirect_url = isset($_GET['redirect']) ? $_GET['redirect'] : null;
+$register_url = "register.php".(!is_null($redirect_url) ? "?redirect=".$redirect_url : "");
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
     $email = $_POST['email'];
@@ -29,8 +32,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $stmt->bind_param("ssss", $username, $email, $full_name, $hashed_password);
 
                 if ($stmt->execute()) {
-                    $_SESSION['register_success'] = "Успешна регистрация! Моля, влезте в системата.";
-                    header('Location: login.php');
+                    $_SESSION['logged_in'] = true;
+                    $_SESSION['username'] = $username;
+                    $_SESSION['id'] = $stmt->insert_id;
+                    
+                    $redirect = !is_null($redirect_url) ? $redirect_url : 'index.php';
+                    
+                    header("Location: $redirect");
                     exit;
                 } else {
                     $error = "Грешка при регистрация: " . $stmt->error;
@@ -48,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Регистрация</title>
+    <title>Регистрация | Салон "MAO MAO"</title>
     <style>
         /*  Soft Color Palette */
         * {
@@ -148,7 +156,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
     <div class="container">
         <h1>Регистрация</h1>
-        <form method="post" action="register.php">
+        <form method="post" action="<?= $register_url ?>">
             <label for="full_name">Име и фамилия:</label>
             <input type="text" id="full_name" name="full_name" required>
 
@@ -168,10 +176,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </form>
 
         <?php if (isset($error)) echo "<p class='error'>$error</p>"; ?>
-        <?php if (isset($_SESSION['register_success'])) {
-            echo "<p class='success'>" . $_SESSION['register_success'] . "</p>";
-            unset($_SESSION['register_success']);
-        } ?>
     </div>
 </body>
 </html>

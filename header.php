@@ -13,7 +13,7 @@
             </div>
 
             <div class="nav-menu__section">
-                <a class="nav-menu__link" href="index.php">Услуги</a>
+                <a class="nav-menu__link" href="index.php">Процедури</a>
                 <a class="nav-menu__link" href="aboutUs.php">За нас</a>
             </div>
 
@@ -22,8 +22,8 @@
                     <a class="nav-menu__link" href="profile.php">Профил</a>
                     <a class="nav-menu__link" href="logout.php">Изход</a>
                 <?php else: ?>
-                    <a class="nav-menu__link" href="profile.php">Профил</a>
                     <a class="nav-menu__link" href="login.php">Вход</a>
+                    <a class="nav-menu__link" href="register.php">Регистрация</a>
                 <?php endif; ?>
             </div>
         </div>

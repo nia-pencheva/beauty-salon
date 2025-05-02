@@ -196,3 +196,63 @@ header {
     width: 100%;
     text-align: center;
 }
+
+.basic-button {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: var(--light-mint-green);
+    color: #ffffff;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.basic-button:hover {
+    background-color: var(--dark-mint-green);
+}
+
+
+.button--primary {
+    font-weight: bold;
+    background-color: var(--light-mint-green);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+.button--primary:hover {
+    background-color: var(--dark-mint-green);
+}
+
+.button--secondary {
+    font-weight: bold;
+    background-color: var(--light-gray);
+    color: var(--dark-gray);
+    padding: 12px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+.button--secondary:hover {
+    background-color: var(--dark-gray);
+    color: white;
+}
+
+.success {
+    background-color: #eaf5ec;
+    color: #33691e;
+    border: 1px solid #c5e1a5;
+    padding: 15px;
+    margin: 20px auto;
+    border-radius: 6px;
+    width: 80%;
+    max-width: 600px;
+    font-size: 1.1em;
+}

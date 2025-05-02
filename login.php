@@ -2,6 +2,10 @@
 session_start();
 include "config.php"; // Include the database connection file
 
+$redirect_url = isset($_GET['redirect']) ? $_GET['redirect'] : null;
+$register_url = "register.php".(!is_null($redirect_url) ? "?redirect=".$redirect_url : "");
+$login_url = "login.php".(!is_null($redirect_url) ? "?redirect=".$redirect_url : "");
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
@@ -20,13 +24,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $_SESSION['logged_in'] = true;
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['id'] = $user['id'];
-                header('Location: index.php');
+
+                $redirect = !is_null($redirect_url) ? $redirect_url : 'index.php';
+
+                header("Location: $redirect");
                 exit;
             } else {
-                $error = "Грешно потребителско име или парола. <br><a href='register.php'>Регистрирайте се тук</a>";
+                $error = "Грешно потребителско име или парола.";
             }
         } else {
-            $error = "Потребителят не съществува. <br><a href='register.php'>Регистрирайте се тук</a>";
+            $error = "Потребителят не съществува.";
         }
         $stmt->close();
     } else {
@@ -40,19 +47,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Вход</title>
+    <title>Вход | Салон "MAO MAO"</title>
     <style>
-        /*  Color Palette:
-            #f9cccf – Header pink
-            #e8aeb7 – Hover accent
-            #a1d8bb – Button green
-            #7db89e – Button green hover
-            #fff9f7 – Main background
-            #ffffff – Form background
-            #444444 – Text
-            #ff4d4d – Error red
-        */
-
         * {
             box-sizing: border-box;
         }
@@ -158,13 +154,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
     <div class="container">
         <h1>Вход</h1>
-        <form method="post" action="login.php">
+        <form method="post" action="<?= $login_url ?>">
             <label for="username">Потребителско име:</label>
             <input type="text" id="username" name="username" required>
             <label for="password">Парола:</label>
             <input type="password" id="password" name="password" required>
             <input type="submit" value="Влез">
         </form>
+
+        <a href='<?= $register_url ?>'>Регистрирация</a>
 
         <?php if (isset($error)): ?>
             <p class="error"><?php echo $error; ?></p>
