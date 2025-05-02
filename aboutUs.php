@@ -104,7 +104,7 @@ $is_logged_in = isset($_SESSION['id']) && $_SESSION['id'];
         <div>
             <img
                 id="beauty-salon-img" 
-                src="/images/beauty-salon-inside.png" 
+                src="./images/beauty-salon-inside.png" 
             />
         </div>
 
@@ -114,7 +114,7 @@ $is_logged_in = isset($_SESSION['id']) && $_SESSION['id'];
                 <span class="about-us__details__label">
                     <img 
                         style="height: 20px;"
-                        src="/images/location.png" 
+                        src="./images/location.png" 
                     />
                     Адрес:
                 </span>
@@ -124,7 +124,7 @@ $is_logged_in = isset($_SESSION['id']) && $_SESSION['id'];
                 <span class="about-us__details__label">
                     <img 
                         style="height: 18px; padding-left: 2px;"
-                        src="/images/phone.png" 
+                        src="./images/phone.png" 
                     />
                     Телефон:
                 </span>
@@ -134,7 +134,7 @@ $is_logged_in = isset($_SESSION['id']) && $_SESSION['id'];
                 <span class="about-us__details__label">
                     <img 
                         style="height: 18px; padding-right: 2px;"
-                        src="/images/working-hours.png" 
+                        src="./images/working-hours.png" 
                     />
                     Работно време:
                 </span>

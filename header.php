@@ -8,7 +8,7 @@
         <div class="nav-menu">
             <div class="nav-menu__section">
                 <a href="index.php">
-                    <img style="height: 50px;" src="images/logo.png" alt="Logo" class="logo">
+                    <img style="height: 50px;" src="./images/logo.png" alt="Logo" class="logo">
                 </a>
             </div>
 
