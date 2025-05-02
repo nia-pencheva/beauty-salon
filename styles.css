@@ -32,6 +32,15 @@ header {
     position: relative; /* Default for mobile */
 }
 
+.logo {
+    display: none;
+    height: 50px;
+
+    @media screen and (min-width: 768px) {
+        display: block;
+    }
+}
+
 /* Mobile-first styles */
 .header-container {
     display: flex;

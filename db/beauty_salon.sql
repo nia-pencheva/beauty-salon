@@ -119,7 +119,7 @@ INSERT INTO `procedure_categories` (`id`, `name`) VALUES
 --
 -- Table structure for table `users`
 --
-
+/*
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `username` varchar(50) NOT NULL,
@@ -127,7 +127,7 @@ CREATE TABLE `users` (
   `full_name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
+*/
 --
 -- Dumping data for table `users`
 --

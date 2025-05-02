@@ -177,9 +177,9 @@ $procedureId = $procedure["id"];
         }
 
         function createTimeElement(time) {
-            timeElement = document.createElement("a");
-            timeElement.classList.add('time-element');
-            timeElement.innerText = time.time;
+    timeElement = document.createElement("a");
+    timeElement.classList.add('time-element');
+    timeElement.innerText = time.time;
 
             if(time.available) {
                 timeElement.classList.add('time-element--active');
