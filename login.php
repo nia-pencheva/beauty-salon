@@ -161,7 +161,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <input type="password" id="password" name="password" required>
             <input type="submit" value="Влез">
         </form>
-         <a href='register.php'>Регистрирация</a>
 
         <a href='<?= $register_url ?>'>Регистрирация</a>
 
