@@ -109,7 +109,7 @@ $is_logged_in = isset($_SESSION['id']) && $_SESSION['id'];
             </div>
 
             <div class="about-us__details">
-                <h1 id="about-us__heading">За нас</h1>
+                <h1 id="about-us__heading">Салон "MAO MAO"</h1>
                 <p>
                     <span class="about-us__details__label">
                         <img 
