@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 25, 2025 at 01:37 PM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.2.0
+-- Generation Time: May 08, 2025 at 08:20 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -55,7 +55,9 @@ INSERT INTO `booked_procedures` (`id`, `user_id`, `procedure_id`, `date`, `time`
 (12, 3, 7, '2025-04-23', '10:30:00', '2025-04-08 17:56:18'),
 (13, 1, 11, '2025-04-23', '12:00:00', '2025-04-08 17:56:18'),
 (14, 2, 9, '2025-04-23', '13:30:00', '2025-04-08 17:56:18'),
-(15, 4, 14, '2025-04-23', '15:00:00', '2025-04-08 17:56:18');
+(15, 4, 14, '2025-04-23', '15:00:00', '2025-04-08 17:56:18'),
+(0, 12, 2, '2025-05-08', '09:00:00', '2025-05-08 06:14:19'),
+(0, 12, 10, '2025-05-08', '13:15:00', '2025-05-08 06:16:37');
 
 -- --------------------------------------------------------
 
@@ -68,30 +70,29 @@ CREATE TABLE `procedures` (
   `name` varchar(500) NOT NULL,
   `procedure_category_id` int(11) NOT NULL,
   `duration_minutes` int(11) NOT NULL,
-  `price` double NOT NULL,
-  `rating` int(11) NOT NULL
+  `price` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `procedures`
 --
 
-INSERT INTO `procedures` (`id`, `name`, `procedure_category_id`, `duration_minutes`, `price`, `rating`) VALUES
-(1, 'Подстригване на жени', 1, 45, 25, 5),
-(2, 'Боядисване на коса', 1, 90, 60, 4),
-(3, 'Маникюр с гел лак', 2, 60, 35, 5),
-(4, 'Педикюр', 2, 50, 30, 4),
-(5, 'Почистване на лице', 3, 70, 45, 4),
-(6, 'Релаксиращ масаж', 4, 60, 50, 5),
-(7, 'Терапия с арганово масло', 1, 30, 20, 4),
-(8, 'Оформяне на брада', 1, 30, 15, 4),
-(9, 'Изправяне с преса', 1, 40, 20, 4),
-(10, 'Удължаване на нокти', 2, 90, 60, 5),
-(11, 'Декорация на нокти', 2, 30, 15, 4),
-(12, 'Хидратираща маска за лице', 3, 40, 25, 4),
-(13, 'Анти-акне терапия', 3, 60, 40, 5),
-(14, 'Антицелулитен масаж', 4, 50, 45, 4),
-(15, 'Ароматерапевтичен масаж', 4, 75, 55, 5);
+INSERT INTO `procedures` (`id`, `name`, `procedure_category_id`, `duration_minutes`, `price`) VALUES
+(1, 'Подстригване на жени', 1, 45, 25),
+(2, 'Боядисване на коса', 1, 90, 60),
+(3, 'Маникюр с гел лак', 2, 60, 35),
+(4, 'Педикюр', 2, 50, 30),
+(5, 'Почистване на лице', 3, 70, 45),
+(6, 'Релаксиращ масаж', 4, 60, 50),
+(7, 'Терапия с арганово масло', 1, 30, 20),
+(8, 'Оформяне на брада', 1, 30, 15),
+(9, 'Изправяне с преса', 1, 40, 20),
+(10, 'Удължаване на нокти', 2, 90, 60),
+(11, 'Декорация на нокти', 2, 30, 15),
+(12, 'Хидратираща маска за лице', 3, 40, 25),
+(13, 'Анти-акне терапия', 3, 60, 40),
+(14, 'Антицелулитен масаж', 4, 50, 45),
+(15, 'Ароматерапевтичен масаж', 4, 75, 55);
 
 -- --------------------------------------------------------
 
@@ -117,9 +118,32 @@ INSERT INTO `procedure_categories` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `ratings`
+--
+
+CREATE TABLE `ratings` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `procedure_id` int(11) NOT NULL,
+  `rating` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `ratings`
+--
+
+INSERT INTO `ratings` (`id`, `user_id`, `procedure_id`, `rating`) VALUES
+(1, 1, 2, 3),
+(2, 1, 3, 2),
+(3, 1, 11, 3),
+(4, 12, 2, 5);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
-/*
+
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `username` varchar(50) NOT NULL,
@@ -127,37 +151,24 @@ CREATE TABLE `users` (
   `full_name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-*/
+
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `full_name`, `email`) VALUES
-(1, 'admin', '$2y$10$0YHEqGNxY8I6d0t36JH4cuUdiOeL/B2PVKOZE6lhJbT8XC6SpkWHK', 'Админ', 'yoana.tsvetanova06@gmail.com');
+(1, 'admin', '$2y$10$0YHEqGNxY8I6d0t36JH4cuUdiOeL/B2PVKOZE6lhJbT8XC6SpkWHK', 'Админ', 'yoana.tsvetanova06@gmail.com'),
+(12, 'yoni', '$2y$10$JbfpKXAeSy15cHMbW4bMr./jigJlIwPdYhTBh9FemVB3/MqiaWRyW', 'Йони', 'yoni@gmail.com');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `booked_procedures`
+-- Indexes for table `ratings`
 --
-ALTER TABLE `booked_procedures`
+ALTER TABLE `ratings`
   ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `procedures`
---
-ALTER TABLE `procedures`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `name` (`name`);
-
---
--- Indexes for table `procedure_categories`
---
-ALTER TABLE `procedure_categories`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `procedure_category` (`name`);
 
 --
 -- Indexes for table `users`
@@ -171,28 +182,16 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT for table `booked_procedures`
+-- AUTO_INCREMENT for table `ratings`
 --
-ALTER TABLE `booked_procedures`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
-
---
--- AUTO_INCREMENT for table `procedures`
---
-ALTER TABLE `procedures`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
-
---
--- AUTO_INCREMENT for table `procedure_categories`
---
-ALTER TABLE `procedure_categories`
+ALTER TABLE `ratings`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

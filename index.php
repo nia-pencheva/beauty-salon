@@ -4,7 +4,19 @@ $is_logged_in = isset($_SESSION['id']) && $_SESSION['id'];
 
 include "config.php";
 
-$stmt = $conn->prepare("SELECT * FROM procedures");
+$stmt = $conn->prepare("
+    SELECT 
+        p.*, 
+        IFNULL(AVG(r.rating), 0) AS average_rating 
+    FROM 
+        procedures p
+    LEFT JOIN 
+        ratings r 
+    ON 
+        p.id = r.procedure_id
+    GROUP BY 
+        p.id
+");
 $stmt->execute();
 $procedures = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 
@@ -112,13 +124,17 @@ $procedureCategories = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
                                 
                                 <p style="color: var(--dark-gray);"><?php echo $procedure['duration_minutes']; ?> мин.</p>
                                 <p style="color: #ffcc66;">
-                                    <?php for ($i = 0; $i < 5; $i++): ?>
-                                        <?php if ($i < $procedure['rating']): ?>
-                                            <span>&#9733;</span> <!-- Filled star -->
-                                        <?php else: ?>
-                                            <span>&#9734;</span> <!-- Empty star -->
-                                        <?php endif; ?>
-                                    <?php endfor; ?>
+                                    <?php if ($procedure['average_rating'] > 0): ?>
+                                        <?php for ($i = 0; $i < 5; $i++): ?>
+                                            <?php if ($i < round($procedure['average_rating'])): ?>
+                                                <span>&#9733;</span> <!-- Filled star -->
+                                            <?php else: ?>
+                                                <span>&#9734;</span> <!-- Empty star -->
+                                            <?php endif; ?>
+                                        <?php endfor; ?>
+                                    <?php else: ?>
+                                        <span style="color: var(--light-gray); font-size: 0.9em;">Няма оценки</span>
+                                    <?php endif; ?>
                                 </p>
                             </div>
                         </div>

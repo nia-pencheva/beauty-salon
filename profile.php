@@ -47,12 +47,11 @@ $reservations = [];
 
 foreach ($all_reservations as $reservation) {
     $reservation_datetime = new DateTime($reservation['date'] . ' ' . $reservation['time']);
-
+    
     if ($reservation_datetime > $current_time) {
         $reservations[] = $reservation;
     }
 }
-
 
 $upcoming_reservations = [];
 foreach ($reservations as $reservation) {
@@ -61,6 +60,33 @@ foreach ($reservations as $reservation) {
 
     if ($interval->invert == 0 && $interval->days == 0 && $interval->h < 24) {
         $upcoming_reservations[] = $reservation;
+    }
+}
+
+$past_reservations_procedures = [];
+
+foreach($all_reservations as $reservation) {
+    $reservation_datetime = new DateTime($reservation['date'] . ' ' . $reservation['time']);
+
+    if ($reservation_datetime < $current_time) {
+        $past_reservations_procedures[] = $reservation["procedure_name"];
+    }
+}
+
+$past_reservations_procedures = array_unique($past_reservations_procedures);
+
+// Извличане на съществуващите оценки на потребителя
+$ratings_query = "
+    SELECT procedure_id, rating 
+    FROM ratings 
+    WHERE user_id = '$user_id'
+";
+$ratings_result = mysqli_query($conn, $ratings_query);
+$user_ratings = [];
+
+if ($ratings_result) {
+    while ($row = mysqli_fetch_assoc($ratings_result)) {
+        $user_ratings[$row['procedure_id']] = $row['rating'];
     }
 }
 ?>
@@ -200,6 +226,25 @@ foreach ($reservations as $reservation) {
                 box-shadow: 0 0 10px rgba(244, 170, 170, 0.4);
             }
         }
+
+        .stars {
+            display: inline-flex;
+            cursor: pointer;
+            font-size: 2em;
+            color: #ccc;
+        }
+
+        .stars span {
+            transition: color 0.3s;
+        }
+
+        .stars span:hover {
+            color: #f5c518;
+        }
+
+        .stars span.selected {
+            color: #f5c518;
+        }
     </style>
 </head>
 <body>
@@ -265,9 +310,86 @@ foreach ($reservations as $reservation) {
             <?php endforeach; ?>
         </table>
     <?php else: ?>
-        <p>Нямате направени резервации.</p>
+        <p>Нямате предстоящи резервации.</p>
+    <?php endif; ?>
+
+    <?php if (!empty($past_reservations_procedures)): ?>
+        <br><br>
+        <h2 style="font-size: 2em; color: var(--dark-mint-green);">Оценете услугите:</h2>
+        <?php foreach ($past_reservations_procedures as $procedure): ?>
+            <?php
+            // Извличане на ID на процедурата
+            $procedure_id_query = "SELECT id FROM procedures WHERE name = '" . mysqli_real_escape_string($conn, $procedure) . "'";
+            $procedure_id_result = mysqli_query($conn, $procedure_id_query);
+            $procedure_id_row = mysqli_fetch_assoc($procedure_id_result);
+            $procedure_id = $procedure_id_row['id'];
+
+            // Проверка за съществуваща оценка
+            $current_rating = isset($user_ratings[$procedure_id]) ? $user_ratings[$procedure_id] : 0;
+            ?>
+            <div class="rating-container">
+                <p><?= htmlspecialchars($procedure) ?></p>
+                <form method="POST" action="rateService.php" class="rating-form">
+                    <input type="hidden" name="procedure_id" value="<?= $procedure_id ?>">
+                    <input type="hidden" name="rating" class="rating-value" value="<?= $current_rating ?>">
+                    <div class="stars" data-procedure-id="<?= $procedure_id ?>">
+                        <?php for ($i = 1; $i <= 5; $i++): ?>
+                            <span data-value="<?= $i ?>" class="<?= $i <= $current_rating ? 'selected' : '' ?>">★</span>
+                        <?php endfor; ?>
+                    </div>
+                    <button style="position: relative; top: -2px; padding: 5px 14px;" class="button--primary" type="submit">Оцени</button>
+                </form>
+            </div>
+        <?php endforeach; ?>
     <?php endif; ?>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const starsContainers = document.querySelectorAll('.stars');
+
+        starsContainers.forEach(container => {
+            const stars = container.querySelectorAll('span');
+            const ratingInput = container.closest('form').querySelector('.rating-value');
+
+            stars.forEach((star, index) => {
+                star.addEventListener('click', () => {
+                    const value = parseInt(star.getAttribute('data-value'));
+
+                    ratingInput.value = value; // Записваме оценката в скритото поле
+                    // Премахваме предишния избор
+                    stars.forEach(s => s.classList.remove('selected'));
+
+                    // Добавяме класа "selected" на избраните звезди
+                    for (let i = 0; i < value; i++) {
+                        stars[i].classList.add('selected');
+                    }
+                });
+
+                star.addEventListener('mouseover', () => {
+                    // Подчертаваме звездите при задържане на мишката
+                    stars.forEach(s => s.classList.remove('selected'));
+                    const value = parseInt(star.getAttribute('data-value'));
+                    for (let i = 0; i < value; i++) {
+                        stars[i].classList.add('selected');
+                    }
+                });
+
+                container.addEventListener('mouseleave', () => {
+                    // Връщаме избора при напускане на мишката
+                    stars.forEach(s => s.classList.remove('selected'));
+                    const value = parseInt(ratingInput.value);
+
+                    if (value) {
+                        for (let i = 0; i < value; i++) {
+                            stars[i].classList.add('selected');
+                        }
+                    }
+                });
+            });
+        });
+    });
+</script>
 
 </body>
 </html>
